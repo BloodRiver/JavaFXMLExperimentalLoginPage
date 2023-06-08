@@ -45,15 +45,20 @@ public class LoginSceneController implements Initializable {
         // TODO
     }    
 
+    /**
+     * 
+     * @param event this is used to get the source of the event (in this case, click event)
+     * @throws IOException if the given FXML file is not found, an IOException is thrown and the error will be shown in the Output window in NetBeans
+     */
     @FXML
     private void newAccountLabelOnClick(MouseEvent event) throws IOException {
-        Scene scene = (Scene) ((Label) event.getSource()).getScene();
+        Scene currentScene = (Scene) ((Label) event.getSource()).getScene();
         
-        Stage stage = (Stage) scene.getWindow();
+        Stage currentStage = (Stage) currentScene.getWindow();
         
         Scene newAccountScene = new Scene(FXMLLoader.load(getClass().getResource("NewAccountScene.fxml")));
         
-        stage.setScene(newAccountScene);
+        currentStage.setScene(newAccountScene);
     }
 
     @FXML
@@ -84,7 +89,7 @@ public class LoginSceneController implements Initializable {
         catch (FileNotFoundException e)
         {
             msgbox.setAlertType(AlertType.ERROR);
-            msgbox.setContentText("User not found");
+            msgbox.setContentText("Text File is missing");
         }
         catch (IOException e)
         {

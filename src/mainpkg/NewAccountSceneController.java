@@ -61,28 +61,40 @@ public class NewAccountSceneController implements Initializable {
 
     @FXML
     private void createAccountButtonOnClick(ActionEvent event) throws FileNotFoundException, IOException {
-        
-        if (User.loadUser(usernameTextField.getText()) == null)
+        try
         {
-            if (newPasswordPasswordField.getText().equals(retypePasswordPasswordField.getText()))
+            if (User.loadUser(usernameTextField.getText()) == null)
             {
-                User new_user = new User(usernameTextField.getText(), newPasswordPasswordField.getText());
-                
-                new_user.save();
-                
-                msgbox.setAlertType(AlertType.CONFIRMATION);
-                msgbox.setContentText("Successfully created user");
+                if (newPasswordPasswordField.getText().equals(retypePasswordPasswordField.getText()))
+                {
+                    User new_user = new User(usernameTextField.getText(), newPasswordPasswordField.getText());
+
+                    new_user.save();
+
+                    msgbox.setAlertType(AlertType.CONFIRMATION);
+                    msgbox.setContentText("Successfully created user");
+                }
+                else
+                {
+                    msgbox.setAlertType(AlertType.WARNING);
+                    msgbox.setContentText("New password and retype-password do not match");
+                }
             }
             else
             {
-                msgbox.setAlertType(AlertType.WARNING);
-                msgbox.setContentText("New password and retype-password do not match");
+                msgbox.setAlertType(AlertType.ERROR);
+                msgbox.setContentText("User already exists.");
             }
         }
-        else
+        catch (FileNotFoundException e)
         {
             msgbox.setAlertType(AlertType.ERROR);
-            msgbox.setContentText("User already exists.");
+            msgbox.setContentText("Text file not found");
+        }
+        catch (IOException e)
+        {
+            msgbox.setAlertType(AlertType.ERROR);
+            msgbox.setContentText("Error reading file");
         }
         msgbox.showAndWait();
     }
